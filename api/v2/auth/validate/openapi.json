@@ -31,20 +31,6 @@
   ],
   "paths": {
     "/api/v2/auth/validate": {
-      "options": {
-        "description": "",
-        "meta": {
-          "element": "",
-          "originalPath": "https://console.flecs.tech/api/v2/auth/validate"
-        },
-        "operationId": "options-api-v2-auth-validate",
-        "parameters": [],
-        "responses": {},
-        "summary": "SUMMARY",
-        "tags": [
-          "Default"
-        ]
-      },
       "parameters": [],
       "post": {
         "description": "",
