@@ -1,0 +1,236 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "New Spec - OpenAPI 3.0",
+    "description": "This is a sample description about this spec.",
+    "termsOfService": "",
+    "contact": {
+      "email": ""
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    },
+    "version": "1.0.0"
+  },
+  "externalDocs": {
+    "description": "Find out more about spec",
+    "url": ""
+  },
+  "servers": [
+    {
+      "url": "https://console.flecs.tech",
+      "description": ""
+    }
+  ],
+  "tags": [
+    {
+      "name": "Default",
+      "description": ""
+    }
+  ],
+  "paths": {
+    "/api/v2/auth/login": {
+      "options": {
+        "description": "",
+        "meta": {
+          "element": "",
+          "originalPath": "https://console.flecs.tech/api/v2/auth/login"
+        },
+        "operationId": "options-api-v2-auth-login",
+        "parameters": [],
+        "responses": {},
+        "summary": "Log in",
+        "tags": [
+          "Default"
+        ]
+      },
+      "parameters": [],
+      "post": {
+        "description": "",
+        "meta": {
+          "element": "",
+          "originalPath": "https://console.flecs.tech/api/v2/auth/login"
+        },
+        "operationId": "post-api-v2-auth-login",
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "examples": {
+                "example-0001": {
+                  "value": {
+                    "issueJWT": true,
+                    "password": "password",
+                    "username": "user"
+                  }
+                }
+              },
+              "schema": {
+                "additionalProperties": false,
+                "properties": {
+                  "issueJWT": {
+                    "type": "boolean"
+                  },
+                  "password": {
+                    "type": "string"
+                  },
+                  "username": {
+                    "type": "string"
+                  }
+                },
+                "required": [],
+                "title": "APIV2AuthLoginPostRequest",
+                "type": "object"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "example-0001": {
+                    "value": {
+                      "data": {
+                        "feature_flags": {
+                          "isVendor": false,
+                          "isWhitelabeled": false
+                        },
+                        "jwt": {
+                          "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI...",
+                          "token_expires": 1704378025
+                        },
+                        "user": {
+                          "ID": 6,
+                          "display_name": "user",
+                          "user_email": "user@mail.com",
+                          "user_login": "user"
+                        }
+                      },
+                      "statusCode": 200,
+                      "statusText": "OK"
+                    }
+                  }
+                },
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "data": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "feature_flags": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "isVendor": {
+                              "type": "boolean"
+                            },
+                            "isWhitelabeled": {
+                              "type": "boolean"
+                            }
+                          },
+                          "required": [],
+                          "title": "FeatureFlags",
+                          "type": "object"
+                        },
+                        "jwt": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "token": {
+                              "type": "string"
+                            },
+                            "token_expires": {
+                              "type": "integer"
+                            }
+                          },
+                          "required": [],
+                          "title": "Jwt",
+                          "type": "object"
+                        },
+                        "user": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "ID": {
+                              "type": "integer"
+                            },
+                            "display_name": {
+                              "type": "string"
+                            },
+                            "user_email": {
+                              "type": "string"
+                            },
+                            "user_login": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [],
+                          "title": "User",
+                          "type": "object"
+                        }
+                      },
+                      "required": [],
+                      "title": "Data",
+                      "type": "object"
+                    },
+                    "statusCode": {
+                      "type": "integer"
+                    },
+                    "statusText": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "title": "APIV2AuthLoginPostResponse",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Item created"
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "examples": {
+                  "example-0001": {
+                    "value": {
+                      "reason": "Sorry, the password you entered is incorrect. Please verify your input or let us help you <a href=\"https://flecs.tech/my-account/lost-password/\">recover your account</a>.",
+                      "statusCode": 403,
+                      "statusText": "Forbidden"
+                    }
+                  }
+                },
+                "schema": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "reason": {
+                      "type": "string"
+                    },
+                    "statusCode": {
+                      "type": "integer"
+                    },
+                    "statusText": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [],
+                  "title": "APIV2AuthLoginPostResponse",
+                  "type": "object"
+                }
+              }
+            },
+            "description": ""
+          }
+        },
+        "summary": "Log in",
+        "tags": [
+          "Default"
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {},
+    "securitySchemes": {}
+  }
+}
