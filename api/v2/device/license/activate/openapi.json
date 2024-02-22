@@ -125,7 +125,7 @@
                     "statusText": {
                       "type": "string"
                     }
-                  },
+                  }
                 }
               }
             },
