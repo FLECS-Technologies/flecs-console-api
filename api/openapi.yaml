@@ -1,0 +1,584 @@
+---
+openapi: 3.0.3
+info:
+  title: New Spec - OpenAPI 3.0
+  description: This is a sample description about this spec.
+  termsOfService: ''
+  contact:
+    email: ''
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.0
+externalDocs:
+  description: Find out more about spec
+  url: ''
+servers:
+  - url: https://console.flecs.tech
+    description: ''
+tags:
+  - name: Default
+    description: ''
+  - name: Device
+    description: ''
+  - name: Download Tokens
+    description: ''
+  - name: Manifests
+    description: ''
+paths:
+  "/api/v2/auth/login":
+    parameters: []
+    post:
+      description: ''
+      operationId: post-api-v2-auth-login
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            examples:
+              example-0001:
+                value:
+                  issueJWT: true
+                  password: password
+                  username: user
+            schema:
+              additionalProperties: false
+              properties:
+                issueJWT:
+                  type: boolean
+                password:
+                  type: string
+                username:
+                  type: string
+              required: []
+              title: APIV2AuthLoginPostRequest
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                example-0001:
+                  value:
+                    data:
+                      feature_flags:
+                        isVendor: false
+                        isWhitelabeled: false
+                      jwt:
+                        token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI...
+                        token_expires: 1704378025
+                      user:
+                        ID: 6
+                        display_name: user
+                        user_email: user@mail.com
+                        user_login: user
+                    statusCode: 200
+                    statusText: OK
+              schema:
+                additionalProperties: false
+                properties:
+                  data:
+                    additionalProperties: false
+                    properties:
+                      feature_flags:
+                        additionalProperties: false
+                        properties:
+                          isVendor:
+                            type: boolean
+                          isWhitelabeled:
+                            type: boolean
+                        required: []
+                        title: FeatureFlags
+                        type: object
+                      jwt:
+                        additionalProperties: false
+                        properties:
+                          token:
+                            type: string
+                          token_expires:
+                            type: integer
+                        required: []
+                        title: Jwt
+                        type: object
+                      user:
+                        additionalProperties: false
+                        properties:
+                          ID:
+                            type: integer
+                          display_name:
+                            type: string
+                          user_email:
+                            type: string
+                          user_login:
+                            type: string
+                        required: []
+                        title: User
+                        type: object
+                    required: []
+                    title: Data
+                    type: object
+                  statusCode:
+                    type: integer
+                  statusText:
+                    type: string
+                required: []
+                title: APIV2AuthLoginPostResponse
+                type: object
+          description: Item created
+        '403':
+          content:
+            application/json:
+              examples:
+                example-0001:
+                  value:
+                    reason: Sorry, the password you entered is incorrect. Please verify
+                      your input or let us help you <a href="https://flecs.tech/my-account/lost-password/">recover
+                      your account</a>.
+                    statusCode: 403
+                    statusText: Forbidden
+              schema:
+                additionalProperties: false
+                properties:
+                  reason:
+                    type: string
+                  statusCode:
+                    type: integer
+                  statusText:
+                    type: string
+                required: []
+                title: APIV2AuthLoginPostResponse
+                type: object
+          description: ''
+      summary: Log in
+      tags:
+        - Default
+  "/api/v2/auth/validate":
+    parameters: [ ]
+    post:
+      description: ''
+      operationId: post-api-v2-auth-validate
+      parameters: [ ]
+      requestBody:
+        content:
+          application/json:
+            examples:
+              example-0001:
+                value:
+                  jwt:
+                    token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI...
+            schema:
+              additionalProperties: false
+              properties:
+                jwt:
+                  additionalProperties: false
+                  properties:
+                    token:
+                      type: string
+                  required: [ ]
+                  title: Jwt
+                  type: object
+              required: [ ]
+              title: APIV2AuthValidatePostRequest
+              type: object
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                example-0001:
+                  value:
+                    data:
+                      feature_flags:
+                        ff:
+                          isVendor: false
+                          isWhitelabeled: false
+                      isValid: true
+                    statusCode: 200
+                    statusText: OK
+              schema:
+                additionalProperties: false
+                properties:
+                  data:
+                    additionalProperties: false
+                    properties:
+                      feature_flags:
+                        additionalProperties: false
+                        properties:
+                          ff:
+                            additionalProperties: false
+                            properties:
+                              isVendor:
+                                type: boolean
+                              isWhitelabeled:
+                                type: boolean
+                            required: [ ]
+                            title: Ff
+                            type: object
+                        required: [ ]
+                        title: FeatureFlags
+                        type: object
+                      isValid:
+                        type: boolean
+                    required: [ ]
+                    title: Data
+                    type: object
+                  statusCode:
+                    type: integer
+                  statusText:
+                    type: string
+                required: [ ]
+                title: APIV2AuthValidatePostResponse
+                type: object
+          description: Item created
+      summary: Create api validate
+      tags:
+        - Default
+
+  "/api/v2/device/license/activate":
+    parameters: []
+    post:
+      description: ''
+      operationId: post-api-v2-device-license-activate
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+            pattern: Bearer .+
+        - name: X-Session-Id
+          in: header
+          required: true
+          schema:
+            type: string
+            pattern: "^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$"
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                example-0001:
+                  value:
+                    data:
+                      sessionId: 00000000-0000-0000-0000-000000000000
+                    statusCode: 200
+                    statusText: OK
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      sessionId:
+                        type: string
+                        pattern: "^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$"
+                  statusCode:
+                    type: integer
+                  statusText:
+                    type: string
+          description: Device successfully activated
+        '204':
+          description: Device already active
+        '403':
+          content:
+            application/json:
+              examples:
+                example-0001:
+                  value:
+                    reason: 'Missing Header: Authorization'
+                    statusCode: 403
+                    statusText: Forbidden
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  statusCode:
+                    type: integer
+                  statusText:
+                    type: string
+          description: ''
+        '500':
+          content:
+            application/json:
+              examples:
+                example-0001:
+                  value:
+                    reason: Could not validate device activation
+                    statusCode: 500
+                    statusText: Internal Server Error
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  statusCode:
+                    type: integer
+                  statusText:
+                    type: string
+          description: ''
+      summary: Activate license
+      tags:
+        - Device
+  "/api/v2/device/license/validate":
+    parameters: []
+    post:
+      description: ''
+      operationId: post-api-v2-device-license-validate
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+            pattern: Bearer .+
+        - name: X-Session-Id
+          in: header
+          required: true
+          schema:
+            type: string
+            pattern: "^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$"
+      responses:
+        '200':
+          content:
+            application/json:
+              examples:
+                example-0001:
+                  value:
+                    data:
+                      valid: true
+                    statusCode: 200
+                    statusText: OK
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      valid:
+                        type: boolean
+                  statusCode:
+                    type: integer
+                  statusText:
+                    type: string
+          description: Device successfully activated
+        '403':
+          content:
+            application/json:
+              examples:
+                example-0001:
+                  value:
+                    reason: 'Missing Header: Authorization'
+                    statusCode: 403
+                    statusText: Forbidden
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  statusCode:
+                    type: integer
+                  statusText:
+                    type: string
+          description: ''
+        '500':
+          content:
+            application/json:
+              examples:
+                example-0001:
+                  value:
+                    reason: Could not validate device activation
+                    statusCode: 500
+                    statusText: Internal Server Error
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  statusCode:
+                    type: integer
+                  statusText:
+                    type: string
+          description: ''
+      summary: Validate license
+      tags:
+        - Device
+
+  "/api/v2/manifests/{app}/{version}":
+    parameters: []
+    get:
+      description: ''
+      operationId: get-api-v2-manifests-app-version
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+            pattern: Bearer .+
+        - name: X-Session-Id
+          in: header
+          required: true
+          schema:
+            type: string
+            pattern: "^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$"
+        - name: app
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: version
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                "$ref": https://raw.githubusercontent.com/FLECS-Technologies/app-sdk/main/manifest.schema.json
+          description: App Manifests for App {app} in version {version}
+        '403':
+          content:
+            application/json:
+              examples:
+                example-0001:
+                  value:
+                    reason: 'Missing Header: Authorization'
+                    statusCode: 403
+                    statusText: Forbidden
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  statusCode:
+                    type: integer
+                  statusText:
+                    type: string
+          description: ''
+        '404':
+          content:
+            application/json:
+              examples:
+                example-0001:
+                  value:
+                    statusCode: 404
+                    statusText: Not found
+              schema:
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                  statusText:
+                    type: string
+          description: No such App/version combination
+        '500':
+          content:
+            application/json:
+              examples:
+                example-0001:
+                  value:
+                    reason: Could not validate device activation
+                    statusCode: 500
+                    statusText: Internal Server Error
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  statusCode:
+                    type: integer
+                  statusText:
+                    type: string
+          description: ''
+      summary: Download App manifest
+
+  "/api/v2/tokens/{app}/{version}":
+    parameters: []
+    post:
+      description: ''
+      operationId: post-api-v2-tokens
+      parameters:
+        - name: Authorization
+          in: header
+          required: true
+          schema:
+            type: string
+            pattern: Bearer .+
+        - name: X-Session-Id
+          in: header
+          required: true
+          schema:
+            type: string
+            pattern: "^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$"
+        - name: app
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: version
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: object
+                    properties:
+                      username:
+                        type: string
+                      password:
+                        type: string
+          description: Download token for App {app} in version {version}
+        '204':
+          description: Inofficial App, no download token creation possible
+        '403':
+          content:
+            application/json:
+              examples:
+                example-0001:
+                  value:
+                    reason: 'Missing Header: Authorization'
+                    statusCode: 403
+                    statusText: Forbidden
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  statusCode:
+                    type: integer
+                  statusText:
+                    type: string
+          description: ''
+        '500':
+          content:
+            application/json:
+              examples:
+                example-0001:
+                  value:
+                    reason: Could not validate device activation
+                    statusCode: 500
+                    statusText: Internal Server Error
+              schema:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  statusCode:
+                    type: integer
+                  statusText:
+                    type: string
+          description: ''
+      summary: Acquire download token for App
+components:
+  schemas: {}
+  securitySchemes: {}
