@@ -1,18 +1,11 @@
 ---
 openapi: 3.0.3
 info:
-  title: New Spec - OpenAPI 3.0
-  description: This is a sample description about this spec.
-  termsOfService: ''
-  contact:
-    email: ''
+  title: FLECS Console API
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.0
-externalDocs:
-  description: Find out more about spec
-  url: ''
 servers:
   - url: https://console.flecs.tech
     description: ''
@@ -25,6 +18,35 @@ tags:
     description: ''
   - name: Manifests
     description: ''
+
+components:
+  parameters:
+    authParam:
+      name: Authorization
+      in: header
+      required: true
+      schema:
+        type: string
+        pattern: Bearer .+
+    sessionIdParam:
+      name: X-Session-Id
+      in: header
+      required: true
+      schema:
+        type: string
+        pattern: "^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$"
+  schemas:
+    errorDescription:
+      type: object
+      properties:
+        reason:
+          type: string
+        statusCode:
+          type: integer
+        statusText:
+          type: string
+  securitySchemes: {}
+
 paths:
   "/api/v2/auth/login":
     parameters: []
@@ -50,7 +72,6 @@ paths:
                   type: string
                 username:
                   type: string
-              required: []
               title: APIV2AuthLoginPostRequest
               type: object
       responses:
@@ -87,7 +108,6 @@ paths:
                             type: boolean
                           isWhitelabeled:
                             type: boolean
-                        required: []
                         title: FeatureFlags
                         type: object
                       jwt:
@@ -97,7 +117,6 @@ paths:
                             type: string
                           token_expires:
                             type: integer
-                        required: []
                         title: Jwt
                         type: object
                       user:
@@ -111,17 +130,14 @@ paths:
                             type: string
                           user_login:
                             type: string
-                        required: []
                         title: User
                         type: object
-                    required: []
                     title: Data
                     type: object
                   statusCode:
                     type: integer
                   statusText:
                     type: string
-                required: []
                 title: APIV2AuthLoginPostResponse
                 type: object
           description: Item created
@@ -137,17 +153,7 @@ paths:
                     statusCode: 403
                     statusText: Forbidden
               schema:
-                additionalProperties: false
-                properties:
-                  reason:
-                    type: string
-                  statusCode:
-                    type: integer
-                  statusText:
-                    type: string
-                required: []
-                title: APIV2AuthLoginPostResponse
-                type: object
+                $ref: '#/components/schemas/errorDescription'
           description: ''
       summary: Log in
       tags:
@@ -174,10 +180,8 @@ paths:
                   properties:
                     token:
                       type: string
-                  required: [ ]
                   title: Jwt
                   type: object
-              required: [ ]
               title: APIV2AuthValidatePostRequest
               type: object
       responses:
@@ -211,22 +215,18 @@ paths:
                                 type: boolean
                               isWhitelabeled:
                                 type: boolean
-                            required: [ ]
                             title: Ff
                             type: object
-                        required: [ ]
                         title: FeatureFlags
                         type: object
                       isValid:
                         type: boolean
-                    required: [ ]
                     title: Data
                     type: object
                   statusCode:
                     type: integer
                   statusText:
                     type: string
-                required: [ ]
                 title: APIV2AuthValidatePostResponse
                 type: object
           description: Item created
@@ -240,18 +240,8 @@ paths:
       description: ''
       operationId: post-api-v2-device-license-activate
       parameters:
-        - name: Authorization
-          in: header
-          required: true
-          schema:
-            type: string
-            pattern: Bearer .+
-        - name: X-Session-Id
-          in: header
-          required: true
-          schema:
-            type: string
-            pattern: "^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$"
+        - $ref: '#/components/parameters/authParam'
+        - $ref: '#/components/parameters/sessionIdParam'
       responses:
         '200':
           content:
@@ -289,14 +279,7 @@ paths:
                     statusCode: 403
                     statusText: Forbidden
               schema:
-                type: object
-                properties:
-                  reason:
-                    type: string
-                  statusCode:
-                    type: integer
-                  statusText:
-                    type: string
+                $ref: '#/components/schemas/errorDescription'
           description: ''
         '500':
           content:
@@ -308,14 +291,7 @@ paths:
                     statusCode: 500
                     statusText: Internal Server Error
               schema:
-                type: object
-                properties:
-                  reason:
-                    type: string
-                  statusCode:
-                    type: integer
-                  statusText:
-                    type: string
+                $ref: '#/components/schemas/errorDescription'
           description: ''
       summary: Activate license
       tags:
@@ -326,18 +302,8 @@ paths:
       description: ''
       operationId: post-api-v2-device-license-validate
       parameters:
-        - name: Authorization
-          in: header
-          required: true
-          schema:
-            type: string
-            pattern: Bearer .+
-        - name: X-Session-Id
-          in: header
-          required: true
-          schema:
-            type: string
-            pattern: "^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$"
+        - $ref: '#/components/parameters/authParam'
+        - $ref: '#/components/parameters/sessionIdParam'
       responses:
         '200':
           content:
@@ -372,14 +338,7 @@ paths:
                     statusCode: 403
                     statusText: Forbidden
               schema:
-                type: object
-                properties:
-                  reason:
-                    type: string
-                  statusCode:
-                    type: integer
-                  statusText:
-                    type: string
+                $ref: '#/components/schemas/errorDescription'
           description: ''
         '500':
           content:
@@ -391,14 +350,7 @@ paths:
                     statusCode: 500
                     statusText: Internal Server Error
               schema:
-                type: object
-                properties:
-                  reason:
-                    type: string
-                  statusCode:
-                    type: integer
-                  statusText:
-                    type: string
+                $ref: '#/components/schemas/errorDescription'
           description: ''
       summary: Validate license
       tags:
@@ -410,18 +362,8 @@ paths:
       description: ''
       operationId: get-api-v2-manifests-app-version
       parameters:
-        - name: Authorization
-          in: header
-          required: true
-          schema:
-            type: string
-            pattern: Bearer .+
-        - name: X-Session-Id
-          in: header
-          required: true
-          schema:
-            type: string
-            pattern: "^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$"
+        - $ref: '#/components/parameters/authParam'
+        - $ref: '#/components/parameters/sessionIdParam'
         - name: app
           in: path
           required: true
@@ -449,14 +391,7 @@ paths:
                     statusCode: 403
                     statusText: Forbidden
               schema:
-                type: object
-                properties:
-                  reason:
-                    type: string
-                  statusCode:
-                    type: integer
-                  statusText:
-                    type: string
+                $ref: '#/components/schemas/errorDescription'
           description: ''
         '404':
           content:
@@ -484,14 +419,7 @@ paths:
                     statusCode: 500
                     statusText: Internal Server Error
               schema:
-                type: object
-                properties:
-                  reason:
-                    type: string
-                  statusCode:
-                    type: integer
-                  statusText:
-                    type: string
+                $ref: '#/components/schemas/errorDescription'
           description: ''
       summary: Download App manifest
 
@@ -501,18 +429,8 @@ paths:
       description: ''
       operationId: post-api-v2-tokens
       parameters:
-        - name: Authorization
-          in: header
-          required: true
-          schema:
-            type: string
-            pattern: Bearer .+
-        - name: X-Session-Id
-          in: header
-          required: true
-          schema:
-            type: string
-            pattern: "^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$"
+        - $ref: '#/components/parameters/authParam'
+        - $ref: '#/components/parameters/sessionIdParam'
         - name: app
           in: path
           required: true
@@ -550,14 +468,7 @@ paths:
                     statusCode: 403
                     statusText: Forbidden
               schema:
-                type: object
-                properties:
-                  reason:
-                    type: string
-                  statusCode:
-                    type: integer
-                  statusText:
-                    type: string
+                $ref: '#/components/schemas/errorDescription'
           description: ''
         '500':
           content:
@@ -569,16 +480,6 @@ paths:
                     statusCode: 500
                     statusText: Internal Server Error
               schema:
-                type: object
-                properties:
-                  reason:
-                    type: string
-                  statusCode:
-                    type: integer
-                  statusText:
-                    type: string
+                $ref: '#/components/schemas/errorDescription'
           description: ''
       summary: Acquire download token for App
-components:
-  schemas: {}
-  securitySchemes: {}
