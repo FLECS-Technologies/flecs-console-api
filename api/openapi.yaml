@@ -45,6 +45,14 @@ components:
           type: integer
         statusText:
           type: string
+    sessionId:
+      type: object
+      properties:
+        id:
+          type: string
+          pattern: "^[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}$"
+        timestamp:
+          type: integer
   securitySchemes: {}
 
 paths:
@@ -328,6 +336,11 @@ paths:
                   statusText:
                     type: string
           description: Device successfully activated
+          headers:
+            X-Session-Id:
+              required: false
+              schema:
+                $ref: '#/components/schemas/sessionId'
         '403':
           content:
             application/json:
@@ -416,6 +429,11 @@ paths:
                   statusText:
                     type: string
           description: No such App/version combination
+          headers:
+            X-Session-Id:
+              required: true
+              schema:
+                $ref: '#/components/schemas/sessionId'
         '500':
           content:
             application/json:
@@ -428,6 +446,11 @@ paths:
               schema:
                 $ref: '#/components/schemas/errorDescription'
           description: ''
+          headers:
+            X-Session-Id:
+              required: false
+              schema:
+                $ref: '#/components/schemas/sessionId'
       summary: Download App manifest
 
   "/api/v2/tokens":
@@ -474,8 +497,18 @@ paths:
                           password:
                             type: string
           description: Download token for App {app} in version {version}
+          headers:
+            X-Session-Id:
+              required: true
+              schema:
+                $ref: '#/components/schemas/sessionId'
         '204':
           description: Inofficial App, no download token creation possible
+          headers:
+            X-Session-Id:
+              required: true
+              schema:
+                $ref: '#/components/schemas/sessionId'
         '403':
           content:
             application/json:
@@ -500,4 +533,9 @@ paths:
               schema:
                 $ref: '#/components/schemas/errorDescription'
           description: ''
+          headers:
+            X-Session-Id:
+              required: false
+              schema:
+                $ref: '#/components/schemas/sessionId'
       summary: Acquire download token for App
