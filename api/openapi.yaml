@@ -312,7 +312,7 @@ paths:
                 example-0001:
                   value:
                     data:
-                      valid: true
+                      isValid: true
                     statusCode: 200
                     statusText: OK
               schema:
@@ -321,7 +321,7 @@ paths:
                   data:
                     type: object
                     properties:
-                      valid:
+                      isValid:
                         type: boolean
                   statusCode:
                     type: integer
@@ -379,7 +379,14 @@ paths:
           content:
             application/json:
               schema:
-                "$ref": https://raw.githubusercontent.com/FLECS-Technologies/app-sdk/main/manifest.schema.json
+                type: object
+                properties:
+                  statusCode:
+                    type: integer
+                  statusText:
+                    type: string
+                  data:
+                    "$ref": https://raw.githubusercontent.com/FLECS-Technologies/app-sdk/main/manifest.schema.json
           description: App Manifests for App {app} in version {version}
         '403':
           content:
@@ -423,7 +430,7 @@ paths:
           description: ''
       summary: Download App manifest
 
-  "/api/v2/tokens/{app}/{version}":
+  "/api/v2/tokens":
     parameters: []
     post:
       description: ''
@@ -431,16 +438,20 @@ paths:
       parameters:
         - $ref: '#/components/parameters/authParam'
         - $ref: '#/components/parameters/sessionIdParam'
-        - name: app
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: version
-          in: path
-          required: true
-          schema:
-            type: string
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - app
+                - version
+              properties:
+                app:
+                  type: string
+                version:
+                  type: string
+
       responses:
         '200':
           content:
@@ -448,13 +459,20 @@ paths:
               schema:
                 type: object
                 properties:
-                  token:
+                  statusCode:
+                    type: integer
+                  statusText:
+                    type: string
+                  data:
                     type: object
                     properties:
-                      username:
-                        type: string
-                      password:
-                        type: string
+                      token:
+                        type: object
+                        properties:
+                          username:
+                            type: string
+                          password:
+                            type: string
           description: Download token for App {app} in version {version}
         '204':
           description: Inofficial App, no download token creation possible
