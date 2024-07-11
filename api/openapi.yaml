@@ -21,12 +21,6 @@ tags:
 
 components:
   parameters:
-    authParam:
-      name: Authorization
-      in: header
-      required: true
-      schema:
-        $ref: '#/components/schemas/auth'
     sessionIdParam:
       name: X-Session-Id
       in: header
@@ -370,18 +364,6 @@ paths:
               required: false
               schema:
                 $ref: '#/components/schemas/sessionId'
-        '403':
-          content:
-            application/json:
-              examples:
-                example-0001:
-                  value:
-                    reason: 'Missing Header: Authorization'
-                    statusCode: 403
-                    statusText: Forbidden
-              schema:
-                $ref: '#/components/schemas/errorDescription'
-          description: ''
         '500':
           content:
             application/json:
@@ -404,7 +386,6 @@ paths:
       description: ''
       operationId: get-api-v2-manifests-app-version
       parameters:
-        - $ref: '#/components/parameters/authParam'
         - $ref: '#/components/parameters/sessionIdParam'
         - name: app
           in: path
@@ -436,7 +417,7 @@ paths:
               examples:
                 example-0001:
                   value:
-                    reason: 'Missing Header: Authorization'
+                    reason: 'Session not found'
                     statusCode: 403
                     statusText: Forbidden
               schema:
@@ -481,14 +462,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/sessionId'
       summary: Download App manifest
-
   "/api/v2/tokens":
     parameters: []
     post:
       description: ''
       operationId: post-api-v2-tokens
       parameters:
-        - $ref: '#/components/parameters/authParam'
         - $ref: '#/components/parameters/sessionIdParam'
       requestBody:
         content:
@@ -544,7 +523,7 @@ paths:
               examples:
                 example-0001:
                   value:
-                    reason: 'Missing Header: Authorization'
+                    reason: 'Session not found'
                     statusCode: 403
                     statusText: Forbidden
               schema:
