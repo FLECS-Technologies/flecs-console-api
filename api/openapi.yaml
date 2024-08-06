@@ -409,7 +409,8 @@ paths:
                   statusText:
                     type: string
                   data:
-                    "$ref": https://raw.githubusercontent.com/FLECS-Technologies/app-sdk/main/manifest.schema.json
+                    # See https://raw.githubusercontent.com/FLECS-Technologies/app-sdk/main/manifest.schema.json
+                    type: object
           description: App Manifests for App {app} in version {version}
         '403':
           content:
