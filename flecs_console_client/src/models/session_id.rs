@@ -16,7 +16,7 @@ pub struct SessionId {
     #[serde(rename = "id", skip_serializing_if = "Option::is_none")]
     pub id: Option<String>,
     #[serde(rename = "timestamp", skip_serializing_if = "Option::is_none")]
-    pub timestamp: Option<i32>,
+    pub timestamp: Option<u64>,
 }
 
 impl SessionId {

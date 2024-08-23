@@ -13,12 +13,16 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct PostApiV2Tokens200ResponseData {
-    #[serde(rename = "token", skip_serializing_if = "Option::is_none")]
-    pub token: Option<Box<models::PostApiV2Tokens200ResponseDataToken>>,
+    #[serde(rename = "token")]
+    pub token: Box<models::PostApiV2Tokens200ResponseDataToken>,
 }
 
 impl PostApiV2Tokens200ResponseData {
-    pub fn new() -> PostApiV2Tokens200ResponseData {
-        PostApiV2Tokens200ResponseData { token: None }
+    pub fn new(
+        token: models::PostApiV2Tokens200ResponseDataToken,
+    ) -> PostApiV2Tokens200ResponseData {
+        PostApiV2Tokens200ResponseData {
+            token: Box::new(token),
+        }
     }
 }

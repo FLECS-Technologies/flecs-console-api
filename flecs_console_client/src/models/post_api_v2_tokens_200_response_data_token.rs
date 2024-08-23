@@ -13,17 +13,14 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct PostApiV2Tokens200ResponseDataToken {
-    #[serde(rename = "username", skip_serializing_if = "Option::is_none")]
-    pub username: Option<String>,
-    #[serde(rename = "password", skip_serializing_if = "Option::is_none")]
-    pub password: Option<String>,
+    #[serde(rename = "username")]
+    pub username: String,
+    #[serde(rename = "password")]
+    pub password: String,
 }
 
 impl PostApiV2Tokens200ResponseDataToken {
-    pub fn new() -> PostApiV2Tokens200ResponseDataToken {
-        PostApiV2Tokens200ResponseDataToken {
-            username: None,
-            password: None,
-        }
+    pub fn new(username: String, password: String) -> PostApiV2Tokens200ResponseDataToken {
+        PostApiV2Tokens200ResponseDataToken { username, password }
     }
 }

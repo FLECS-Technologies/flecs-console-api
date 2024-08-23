@@ -22,7 +22,7 @@ Activate device via user license or device serial number
 Name | Type | Description  | Required | Notes
 ------------- | ------------- | ------------- | ------------- | -------------
 **authorization** | Option<**String**> | Provide only if activation via user license should be performed |  |
-**x_session_id** | Option<[**SessionId**](.md)> | Leave out if no sessionId is known. |  |
+**x_session_id** | Option<**String**> | Leave out if no sessionId is known. |  |
 **post_api_v2_device_license_activate_request** | Option<[**PostApiV2DeviceLicenseActivateRequest**](PostApiV2DeviceLicenseActivateRequest.md)> |  |  |
 
 ### Return type
