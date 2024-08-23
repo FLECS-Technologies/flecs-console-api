@@ -44,6 +44,8 @@ components:
           $ref: '#/components/schemas/id'
         timestamp:
           type: integer
+          minimum: 0
+          format: int64
     auth:
       type: string
       pattern: Bearer .+
@@ -60,15 +62,15 @@ components:
       required:
         - sessionId
         - licenseKey
-  securitySchemes: {}
+  securitySchemes: { }
 
 paths:
   "/api/v2/auth/login":
-    parameters: []
+    parameters: [ ]
     post:
       description: 'Login to console as user with password'
       operationId: post-api-v2-auth-login
-      parameters: []
+      parameters: [ ]
       requestBody:
         content:
           application/json:
@@ -265,7 +267,7 @@ paths:
           in: header
           required: false
           schema:
-            $ref: '#/components/schemas/sessionId'
+            $ref: '#/components/schemas/id'
       requestBody:
         content:
           application/json:
@@ -295,7 +297,7 @@ paths:
             X-Session-Id:
               required: true
               schema:
-                $ref: '#/components/schemas/sessionId'
+                $ref: '#/components/schemas/id'
           description: Device already active
         '403':
           content:
@@ -325,7 +327,7 @@ paths:
       tags:
         - Device
   "/api/v2/device/license/validate":
-    parameters: []
+    parameters: [ ]
     post:
       description: 'Validate the device license based on the session id'
       operationId: post-api-v2-device-license-validate
@@ -381,7 +383,7 @@ paths:
         - Device
 
   "/api/v2/manifests/{app}/{version}":
-    parameters: []
+    parameters: [ ]
     get:
       description: 'Get the app manifest for a given app and version'
       operationId: get-api-v2-manifests-app-version
@@ -464,7 +466,7 @@ paths:
                 $ref: '#/components/schemas/sessionId'
       summary: Download App manifest
   "/api/v2/tokens":
-    parameters: []
+    parameters: [ ]
     post:
       description: 'Create a download token for a given app and version'
       operationId: post-api-v2-tokens
@@ -505,6 +507,14 @@ paths:
                             type: string
                           password:
                             type: string
+                        required:
+                          - username
+                          - password
+                    required:
+                      - token
+                required:
+                  - statusCode
+                  - data
           description: Download token for App {app} in version {version}
           headers:
             X-Session-Id:

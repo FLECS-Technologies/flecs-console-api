@@ -13,20 +13,23 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Default, Debug, PartialEq, Serialize, Deserialize)]
 pub struct PostApiV2Tokens200Response {
-    #[serde(rename = "statusCode", skip_serializing_if = "Option::is_none")]
-    pub status_code: Option<i32>,
+    #[serde(rename = "statusCode")]
+    pub status_code: i32,
     #[serde(rename = "statusText", skip_serializing_if = "Option::is_none")]
     pub status_text: Option<String>,
-    #[serde(rename = "data", skip_serializing_if = "Option::is_none")]
-    pub data: Option<Box<models::PostApiV2Tokens200ResponseData>>,
+    #[serde(rename = "data")]
+    pub data: Box<models::PostApiV2Tokens200ResponseData>,
 }
 
 impl PostApiV2Tokens200Response {
-    pub fn new() -> PostApiV2Tokens200Response {
+    pub fn new(
+        status_code: i32,
+        data: models::PostApiV2Tokens200ResponseData,
+    ) -> PostApiV2Tokens200Response {
         PostApiV2Tokens200Response {
-            status_code: None,
+            status_code,
             status_text: None,
-            data: None,
+            data: Box::new(data),
         }
     }
 }

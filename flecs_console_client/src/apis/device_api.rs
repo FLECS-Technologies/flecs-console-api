@@ -51,7 +51,7 @@ pub enum PostApiV2DeviceLicenseValidateError {
 pub async fn post_api_v2_device_license_activate(
     configuration: &configuration::Configuration,
     authorization: Option<&str>,
-    x_session_id: Option<models::SessionId>,
+    x_session_id: Option<&str>,
     post_api_v2_device_license_activate_request: Option<
         models::PostApiV2DeviceLicenseActivateRequest,
     >,
