@@ -62,6 +62,11 @@ components:
       required:
         - sessionId
         - licenseKey
+    appManifestSchemaVersion:
+      type: string
+      pattern: "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+      example: "3.0.0-beta.1"
+      description: "https://regex101.com/r/y9GIZD/1"
   securitySchemes: { }
 
 paths:
@@ -399,6 +404,16 @@ paths:
           required: true
           schema:
             type: string
+        - name: max_manifest_version
+          in: query
+          schema:
+            $ref: '#/components/schemas/appManifestSchemaVersion'
+          required: false
+        - name: manifest_version
+          in: query
+          schema:
+            $ref: '#/components/schemas/appManifestSchemaVersion'
+          required: false
       responses:
         '200':
           content:
@@ -426,6 +441,23 @@ paths:
               schema:
                 $ref: '#/components/schemas/errorDescription'
           description: 'Session id invalid or not found'
+        '400':
+          description: 'Bad Request'
+          content:
+            application/json:
+              examples:
+                example-0001:
+                  value:
+                    reason: Invalid query parameter manifest_version
+                    statusCode: 400
+                    statusText: Bad Request
+              schema:
+                $ref: '#/components/schemas/errorDescription'
+          headers:
+            X-Session-Id:
+              required: true
+              schema:
+                $ref: '#/components/schemas/sessionId'
         '404':
           content:
             application/json:

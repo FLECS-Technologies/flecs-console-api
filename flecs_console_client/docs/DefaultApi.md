@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 ## get_api_v2_manifests_app_version
 
-> models::GetApiV2ManifestsAppVersion200Response get_api_v2_manifests_app_version(x_session_id, app, version)
+> models::GetApiV2ManifestsAppVersion200Response get_api_v2_manifests_app_version(x_session_id, app, version, max_manifest_version, manifest_version)
 Download App manifest
 
 Get the app manifest for a given app and version
@@ -26,6 +26,8 @@ Name | Type | Description  | Required | Notes
 **x_session_id** | **String** |  | [required] |
 **app** | **String** |  | [required] |
 **version** | **String** |  | [required] |
+**max_manifest_version** | Option<**String**> |  |  |
+**manifest_version** | Option<**String**> |  |  |
 
 ### Return type
 
