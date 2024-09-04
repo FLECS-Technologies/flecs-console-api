@@ -51,6 +51,7 @@ pub enum PostApiV2TokensSuccess {
 #[serde(untagged)]
 pub enum GetApiV2ManifestsAppVersionError {
     Status403(models::ErrorDescription),
+    Status400(models::ErrorDescription),
     Status404(models::GetApiV2ManifestsAppVersion404Response),
     Status500(models::ErrorDescription),
     UnknownValue(serde_json::Value),
@@ -86,6 +87,8 @@ pub async fn get_api_v2_manifests_app_version(
     x_session_id: &str,
     app: &str,
     version: &str,
+    max_manifest_version: Option<&str>,
+    manifest_version: Option<&str>,
 ) -> Result<
     ResponseContent<GetApiV2ManifestsAppVersionSuccess>,
     Error<GetApiV2ManifestsAppVersionError>,
@@ -103,6 +106,14 @@ pub async fn get_api_v2_manifests_app_version(
     let mut local_var_req_builder =
         local_var_client.request(reqwest::Method::GET, local_var_uri_str.as_str());
 
+    if let Some(ref local_var_str) = max_manifest_version {
+        local_var_req_builder =
+            local_var_req_builder.query(&[("max_manifest_version", &local_var_str.to_string())]);
+    }
+    if let Some(ref local_var_str) = manifest_version {
+        local_var_req_builder =
+            local_var_req_builder.query(&[("manifest_version", &local_var_str.to_string())]);
+    }
     if let Some(ref local_var_user_agent) = local_var_configuration.user_agent {
         local_var_req_builder =
             local_var_req_builder.header(reqwest::header::USER_AGENT, local_var_user_agent.clone());
