@@ -384,6 +384,78 @@ components:
       required:
         - totalSubscriptions
         - subscriptions
+    deviceLicense:
+      type: object
+      required:
+        - manufacturer
+        - model
+        - serial_number
+        - manufacture_date
+      properties:
+        manufacturer:
+          type: object
+          required:
+            - name
+            - id
+          properties:
+            name:
+              type: string
+              example: "Example Manufacturer"
+            id:
+              type: integer
+              example: 791
+        model:
+          type: string
+          example: "IPC-xyz"
+        serial_number:
+          type: string
+          example: "SN123456789"
+          description: "Unique identifier for the device, must be globally unique across all devices"
+        manufacture_date:
+          type: string
+          format: date
+          example: "2025-01-01"
+          description: "ISO 8601 date format"
+    deviceLicenseResponse:
+      type: object
+      properties:
+        manufacturer:
+          type: object
+          properties:
+            name:
+              type: string
+              example: "Example Manufacturer"
+            id:
+              type: integer
+              example: 791
+        model:
+          type: string
+          example: "IPC-xyz"
+        serial_number:
+          type: string
+          example: "SN123456789"
+        manufacture_date:
+          type: string
+          format: date
+          example: "2025-01-01"
+        created_at:
+          type: string
+          format: date-time
+          example: "2025-07-28T10:30:00.000Z"
+          description: "ISO 8601 timestamp with timezone"
+        status:
+          type: integer
+          format: int16
+          example: 0
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        code:
+          type: integer
   securitySchemes: { }
 
 paths:
@@ -701,6 +773,67 @@ paths:
                 $ref: '#/components/schemas/errorDescription'
           description: 'Internal Server Error'
       summary: Validate license
+      tags:
+        - Device
+  "/api/v2/device/license":
+    post:
+      summary: Register device license
+      description: Register a new device license with manufacturer and device details
+      parameters:
+        - $ref: '#/components/parameters/authParam'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/deviceLicense'
+      responses:
+        '201':
+          description: Device license created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deviceLicenseResponse'
+        '400':
+          description: Bad request - Invalid payload
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "Bad Request"
+                message: "Invalid payload: missing required field 'serial_number'"
+                code: 400
+        '401':
+          description: Unauthorized - Invalid or missing bearer token
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "Unauthorized"
+                message: "Invalid or missing bearer token"
+                code: 401
+        '422':
+          description: Unprocessable Entity - Validation errors
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "Validation Error"
+                message: "Invalid serial number format"
+                code: 422
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              example:
+                error: "Internal Server Error"
+                message: "An unexpected error occurred"
+                code: 500
       tags:
         - Device
 
