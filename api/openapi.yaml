@@ -447,15 +447,6 @@ components:
           type: integer
           format: int16
           example: 0
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-        code:
-          type: integer
   securitySchemes: { }
 
 paths:
@@ -792,48 +783,81 @@ paths:
           description: Device license created successfully
           content:
             application/json:
+              examples:
+                example-0001:
+                  value:
+                    data:
+                      manufacturer:
+                        name: "Example Manufacturer"
+                        id: 791
+                      model: "IPC-xyz"
+                      serial_number: "SN123456789"
+                      manufacture_date: "2025-01-01"
+                      created_at: "2025-07-28T10:30:00.000Z"
+                      status: 0
+                    statusCode: 201
+                    statusText: "Created"
               schema:
-                $ref: '#/components/schemas/deviceLicenseResponse'
+                type: object
+                properties:
+                  data:
+                    $ref: '#/components/schemas/deviceLicenseResponse'
+                  statusCode:
+                    type: integer
+                  statusText:
+                    type: string
+                required:
+                  - data
+                  - statusCode
+                  - statusText
         '400':
           description: Bad request - Invalid payload
           content:
             application/json:
+              examples:
+                example-0001:
+                  value:
+                    reason: "Invalid payload: missing required field 'serial_number'"
+                    statusCode: 400
+                    statusText: "Bad Request"
               schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                error: "Bad Request"
-                message: "Invalid payload: missing required field 'serial_number'"
-                code: 400
+                $ref: '#/components/schemas/errorDescription'
         '401':
           description: Unauthorized - Invalid or missing bearer token
           content:
             application/json:
+              examples:
+                example-0001:
+                  value:
+                    reason: "Invalid or missing bearer token"
+                    statusCode: 401
+                    statusText: "Unauthorized"
               schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                error: "Unauthorized"
-                message: "Invalid or missing bearer token"
-                code: 401
+                $ref: '#/components/schemas/errorDescription'
         '422':
           description: Unprocessable Entity - Validation errors
           content:
             application/json:
+              examples:
+                example-0001:
+                  value:
+                    reason: "Invalid serial number format"
+                    statusCode: 422
+                    statusText: "Unprocessable Entity"
               schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                error: "Validation Error"
-                message: "Invalid serial number format"
-                code: 422
+                $ref: '#/components/schemas/errorDescription'
         '500':
           description: Internal server error
           content:
             application/json:
+              examples:
+                example-0001:
+                  value:
+                    reason: "Could not register device license"
+                    statusCode: 500
+                    statusText: "Internal Server Error"
               schema:
-                $ref: '#/components/schemas/Error'
-              example:
-                error: "Internal Server Error"
-                message: "An unexpected error occurred"
-                code: 500
+                $ref: '#/components/schemas/errorDescription'
       tags:
         - Device
 
